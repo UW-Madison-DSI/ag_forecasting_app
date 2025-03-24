@@ -57,11 +57,11 @@ ui <- navbarPage(
           condition = "input.ibm_data == false",  # Condition to display disease selection
           selectInput(
             "disease_name",
-            "Select Disease:",
+            "Select Crop Disease:",
             choices = c(
               "Tar Spot (Corn)" = 'tarspot',
               "Gray Leaf Spot (Corn)" = 'gls',
-              "Frogeye Leaf Spot (Soybean)" = 'fe',
+              "Frogeye Leaf Spot (Corn)" = 'fe',
               "Whitemold Irr 30in (Soybean)" = 'whitemold_irr_30in',
               "Whitemold Irr 15in (Soybean)" = 'whitemold_irr_15in',
               "Whitemold Dry (Soybean)" = 'whitemold_nirr'
@@ -75,9 +75,15 @@ ui <- navbarPage(
           min = '2024-04-02',
           max = Sys.Date()
         ),
+        
         hr(), 
         conditionalPanel(
           condition = "input.ibm_data == false",
+          actionButton(
+            inputId = "run_model_wisc", 
+            label = "Run Forecasting", 
+            class = "btn-success"
+          ),
           h4("Crop Management"),
           p(
             "Our model predictions are advised when air temperature is above 15°C in average from the last 30 days and the next conditions are satisfied.",
@@ -140,8 +146,12 @@ ui <- navbarPage(
             "This option provides a comprehensive summary of all diseases for the selected location and forecast date, assuming that the crop management practices are followed as recommended to assess the associated risk.",
             style = "font-size: 0.6em; color: #777; font-style: italic; margin-top: 5px; margin-bottom: 5px;"
           )
-        )
+        ),
+        downloadButton("download_stations", "Download csv", 
+                       class = "btn-primary", 
+                       style = "text-align: center; margin-top: 10px;")
       ),
+      
       mainPanel(
         leafletOutput("risk_map", height = 800),
         conditionalPanel(
@@ -165,7 +175,7 @@ ui <- navbarPage(
             style = "margin-top: 10px; color: #666; font-size: 14px;"
           )
         ),
-        p("Results will update after a short delay",
+        p("Daily weather data is sourced from public UW-Madison Mesonet startions and IBM.",
           style = "font-size: 0.6em; color: #777; font-style: italic; margin-top: 5px; margin-bottom: 5px;"
         )
       )
@@ -176,14 +186,18 @@ ui <- navbarPage(
   tabPanel(
     title = "Summary",
     fluidPage(
-      h3("Station Summary"),
+      h3("Location Summary"),
+      p("Our models are advised when the averaged daily air temperature in the last 30 days is above 15 °C."),
       mainPanel(
         textOutput('station_specifications'),
         hr(),
         radioButtons("disease", 
-                     label = "Choose Disease",
-                     choices = c("Gray Leaf Spot", "Tar Spot", 
-                                 "Whitemold Irr (30in)", "Whitemold Irr (15in)", "Whitemold No Irr"),
+                     label = "Choose Crop Disease",
+                     choices = c("Gray Leaf Spot", "Frog Eye Leaf Spot",
+                                 "Tar Spot",
+                                 "Whitemold Irr (30in)", 
+                                 "Whitemold Irr (15in)", 
+                                 "Whitemold No Irr"),
                      selected = "Gray Leaf Spot",
                      inline = TRUE),
         hr(),
@@ -191,20 +205,6 @@ ui <- navbarPage(
         hr(),
         plotOutput("weather_trend", width = "100%", height = "600px")
       )
-    )
-  ),
-  # Tab 3: Downloads
-  tabPanel(
-    title = "Downloads",
-    fluidPage(
-      h3("Downloads"),
-      hr(),
-      p("A tabular report on weather data and risk estimates for the selected location, such as a specific station or a location pinned on the map."),
-      downloadButton("download_stations", "Download csv", 
-                     class = "btn-primary", 
-                     style = "text-align: center; margin-top: 10px;"),
-      #hr(),
-      #plotOutput('air_temperature_plot', height = "1200px", width = "100%")
     )
   ),
   
