@@ -266,13 +266,14 @@ server <- function(input, output, session) {
   # Make the map responsive to both data changes AND disease selection changes
   observeEvent(list(forecast_data(), input$disease_name), {
     tryCatch({
-      
+
       data1 <- forecast_data() %>%
         mutate(`Forecasting Date` = forecasting_date) %>%
         group_by(station_id) %>%
         filter(forecasting_date == max(forecasting_date)) %>%
         ungroup()
       removeNotification("loading")
+
       # Debug print
       cat("Data retrieved, rows:", nrow(data1), "\n")
       

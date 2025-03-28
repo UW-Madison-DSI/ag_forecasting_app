@@ -10,4 +10,4 @@ url: https://connect.doit.wisc.edu/ag_forecasting/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: data/historical_data_2.RData|data/historical_data.rds|data/snapshot_0224_0225_stations.parquet|persisting_file.R|report_template.Rmd|test/testthat/test_1_wisconet_calls.R
+ignoredFiles: data/historical_data_2.RData|data/historical_data.rds|data/snapshot_0224_0225_stations.parquet|report_template.Rmd|test/testthat/test_1_wisconet_calls.R
