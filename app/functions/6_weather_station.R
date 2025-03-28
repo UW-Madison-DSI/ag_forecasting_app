@@ -87,8 +87,7 @@ plot_airtemp_30day <- function(station, end_date) {
     geom_line() +
     labs(
       title = paste0(
-        "Daily Air Temperature (Celsius) – Station: ", station,
-        "\nFrom ", format(start_date, "%Y-%m-%d"),
+        "Daily Air Temperature (Celsius) from ", format(start_date, "%Y-%m-%d"),
         " to ", format(end_date, "%Y-%m-%d")
       ),
       x     = "Date",

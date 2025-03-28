@@ -675,35 +675,50 @@ server <- function(input, output, session) {
     # Validate and prepare data
     req(shared_data)
     
-    # Set default location and data
-    location <- "ALTN Station"
-    title_txt <- "Risk Trend"
-    
     # Prepare data based on different selection methods
+    if (is.null(shared_data$w_station_id) & (is.null(shared_data$ibm_data))){
+      # Set default location and data
+      
+      data_prepared <- forecast_data() %>% filter(station_id == 'LNCT') 
+      location <- data_prepared$station_name[1]
+      title_txt <- paste0("Risk Trend at ", location, ' Station')
+      county <- data_prepared$county[1]
+      city <- data_prepared$city[1]
+      subtitle_txt <- paste0("Located at ", county, ', ',city, ' City') 
+    }
     if (!is.null(shared_data$w_station_id)) {
       # Data selected by station ID
       data_prepared <- forecast_data() %>% 
         filter(station_id == shared_data$w_station_id)
-      
-      location <- paste0(shared_data$w_station_id, " Station")
-      title_txt <- paste0("Risk Trend at ", shared_data$w_station_id)
+      #thestation <- data_prepared$station_name[1]
+      county <- data_prepared$county[1]
+      city <- data_prepared$city[1]
+      subtitle_txt <- paste0("Located at ", county, ', ',city, ' City') 
+      location <- data_prepared$station_name[1]
+      title_txt <- paste0("Risk Trend at ", location, ' Station')
       
     } 
     if (!is.null(shared_data$ibm_data)) {
       # Data selected by map click
       req(shared_data$ibm_data)
       
-      data_prepared <- shared_data$ibm_data %>% filter(!is.null(tarspot_risk)
-                                    & !is.null(whitemold_nirr_risk)
-                                    & !is.null(gls_risk)
-                                    & !is.null(whitemold_irr_15in_risk))
+      data_prepared <- shared_data$ibm_data %>%
+        filter(!is.na(tarspot_risk) &
+                 !is.na(whitemold_nirr_risk) &
+                 !is.na(gls_risk) &
+                 !is.na(whitemold_irr_15in_risk) &
+                 !is.na(whitemold_irr_30in_risk) &
+                 !is.na(fe_risk)) %>%
+        arrange(desc(as.Date(date, format = "%Y-%m-%d"))) %>%  # Sort by date descending
+        head(7)  # Get the top 7 rows
+      
+      subtitle_txt <- "" 
       location <- paste0("Lat ", shared_data$latitude, " Lon ", shared_data$longitude)
       title_txt <- paste0("Risk Trend at Lat ", shared_data$latitude, " Lon ", shared_data$longitude)
-
     }
     
     # Prepare long-format data with separate risk and class columns
-    data_long <- data_prepared %>%
+    data_long <- data_prepared %>% 
       mutate(forecasting_date = as.Date(date, format = "%Y-%m-%d")) %>%
       mutate(across(ends_with("_risk"), as.numeric)) %>%
       select(
@@ -726,12 +741,12 @@ server <- function(input, output, session) {
       ) %>%
       mutate(
         disease = case_when(
-          risk_type == "tarspot_risk" ~ "Tar Spot",
-          risk_type == "gls_risk" ~ "Gray Leaf Spot",
-          risk_type == "fe_risk" ~ "Frog Eye Leaf Spot",
-          risk_type == "whitemold_irr_30in_risk" ~ "Whitemold Irr (30in)",
-          risk_type == "whitemold_irr_15in_risk" ~ "Whitemold Irr (15in)",
-          risk_type == "whitemold_nirr_risk" ~ "Whitemold No Irr"
+          risk_type == "tarspot_risk" ~ "tarspot",
+          risk_type == "gls_risk" ~ "gls",
+          risk_type == "fe_risk" ~ "fe",
+          risk_type == "whitemold_irr_30in_risk" ~ "whitemold_irr_30in",
+          risk_type == "whitemold_irr_15in_risk" ~ "whitemold_irr_15in",
+          risk_type == "whitemold_nirr_risk" ~ "whitemold_nirr"
         ),
         risk_class = case_when(
           risk_type == "tarspot_risk" ~ tarspot_risk_class,
@@ -745,9 +760,9 @@ server <- function(input, output, session) {
       select(-risk_type, -contains("_risk_class"))
     
     # Filter for selected diseases
-    req(input$disease)
+    req(input$disease_name)
     df_subset <- data_long %>% 
-      filter(disease %in% input$disease) %>%
+      filter(disease %in% input$disease_name) %>%
       mutate(risk_value = risk_value * 100)
     
     # Define disease-specific plot settings
@@ -807,14 +822,15 @@ server <- function(input, output, session) {
       } +
       labs(
         title = title_txt,
+        subtitle = subtitle_txt,
         x = "Forecasting Date",
         y = "Risk (%)",
         color = "Disease"
       ) +
       theme_minimal() +
       theme(
-        plot.title = element_text(size = 20, face = "bold", hjust = 0.5),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+        plot.title = element_text(size = 20, face = "bold"),
+        #axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
         legend.position = "bottom"
       )
   }, width = 800, height = 600)
@@ -822,16 +838,18 @@ server <- function(input, output, session) {
   
   output$weather_trend <- renderPlot({
     # Prepare the data based on shared_data.
-    data_prepared <- historical_data %>% filter(station_id == 'ALTN')
+    data_prepared <- historical_data %>% filter(station_id == 'LNCT')
     air_temp_data <- NULL
     rh_data <- NULL
     flag = TRUE
+    if(is.null(shared_data$w_station_id) & is.null(shared_data$ibm_data)){
+      result <- plot_airtemp_30day('LNCT', input$forecasting_date)
+      print(result$plot)
+    }
     if (!is.null(shared_data$w_station_id)) {
       print(shared_data$w_station_id)
       result <- plot_airtemp_30day(shared_data$w_station_id, input$forecasting_date)
-      # View the data
-      # head(result$data)
-      # Print or render the plot
+
       print(result$plot)
     } 
     if (!is.null(shared_data$ibm_data)) {

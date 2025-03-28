@@ -76,9 +76,9 @@ ui <- tagList(
       style = "width:100%; text-align:center; padding:5px; background-color:#B22234;"
     ),
     
-    # Tab 1: Disease Forecasting
+    # Tab 1: Ag Forecasting
     tabPanel(
-      "Disease Forecasting",
+      "Ag Forecasting",
       sidebarLayout(
         sidebarPanel(
           style = "height: 800px;",
@@ -110,7 +110,8 @@ ui <- tagList(
                 "Whitemold Irr 30in (Soybean)" = 'whitemold_irr_30in',
                 "Whitemold Irr 15in (Soybean)" = 'whitemold_irr_15in',
                 "Whitemold Dry (Soybean)" = 'whitemold_nirr'
-              )
+              ),
+              selected = 'tarspot'
             )
           ),
           dateInput(
@@ -224,35 +225,25 @@ ui <- tagList(
               style = "margin-top: 10px; color: #666; font-size: 14px;"
             )
           ),
-          p("Daily weather data is sourced from public UW-Madison Mesonet startions and IBM.",
+          p("Daily weather data is sourced from public UW-Madison Mesonet weather stations (as shown above). We also offer the option to select a custom location on the map; in that case, weather data is retrieved from IBM Environmental Intelligence.",
             style = "font-size: 0.6em; color: #777; font-style: italic; margin-top: 5px; margin-bottom: 5px;"
           )
         )
-      )
-    ),
-    
-    # Your other tabs remain the same...
-    tabPanel(
-      title = "Summary",
-      fluidPage(
-        h3("Location Summary"),
-        p("Our models are advised when the averaged daily air temperature in the last 30 days is above 15 °C."),
-        mainPanel(
-          textOutput('station_specifications'),
-          hr(),
-          radioButtons("disease", 
-                       label = "Choose Crop Disease",
-                       choices = c("Gray Leaf Spot", "Frog Eye Leaf Spot",
-                                   "Tar Spot",
-                                   "Whitemold Irr (30in)", 
-                                   "Whitemold Irr (15in)", 
-                                   "Whitemold No Irr"),
-                       selected = "Gray Leaf Spot",
-                       inline = TRUE),
-          hr(),
-          plotOutput("risk_trend", width = "100%", height = "600px"),
-          hr(),
-          plotOutput("weather_trend", width = "100%", height = "600px")
+      ),
+      # Your other tabs remain the same...
+      # Summary Section below the forecasting panel
+      hr(),  # A horizontal rule to visually separate sections
+      fluidRow(
+        column(6,
+               h3("Location Summary"),
+               p("Please choose your desired station in the map or a custom location"),
+               plotOutput("risk_trend", width = "100%", height = "600px")
+        ),
+        column(6,
+               h3("Weather Trend for the given location"),
+               
+               hr(),
+               plotOutput("weather_trend", width = "100%", height = "600px")
         )
       )
     ),
