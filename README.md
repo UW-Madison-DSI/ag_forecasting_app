@@ -5,12 +5,19 @@
 
 This open-source plant disease forecasting API and Dashboard enables proactive and data-driven decision-making in agriculture. By leveraging weather data, disease models, and historical disease spread patterns, the tool empowers farmers, agronomists, and plant pathologists to monitor and predict disease outbreaks with accuracy and timeliness. The insights provided help in taking preventive actions, potentially reducing the impact of diseases on crops.
 
-## Shiny APP
 
-Visit our [dashboard here](https://connect.doit.wisc.edu/ag_forecasting/)
+## Explore our Open Source Shiny App sourced From Wisconet stations weather information
 
-## API
+Explore our interactive dashboard designed for real-time agricultural forecasting insights. Click the button below to get started:
 
+<p align="center">
+  <a href="https://connect.doit.wisc.edu/ag_forecasting/" style="display:inline-block;padding:10px 20px;background-color:#4CAF50;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;">
+    Visit the Dashboard
+  </a>
+</p>
+
+
+## Explore our Open Source API
 
 Method: `GET` 
 Response: A JSON object containing the predicted probability and underlying variables.
