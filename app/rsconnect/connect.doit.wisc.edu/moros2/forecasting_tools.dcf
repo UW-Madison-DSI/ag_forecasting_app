@@ -5,7 +5,7 @@ account: moros2
 server: connect.doit.wisc.edu
 hostUrl: https://connect.doit.wisc.edu/__api__
 appId: 367
-bundleId: 3472
+bundleId: 3502
 url: https://connect.doit.wisc.edu/ag_forecasting/
 version: 1
 asMultiple: FALSE

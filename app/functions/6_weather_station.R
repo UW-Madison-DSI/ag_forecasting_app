@@ -104,10 +104,3 @@ plot_airtemp_30day <- function(station, end_date) {
     plot = p
   ))
 }
-
-# ----------------------------------------------------
-# Example usage:
-# ----------------------------------------------------
-# result <- plot_airtemp_30day_celsius("ALTN", "2025-03-22")
-# result$plot    # The ggplot object
-# head(result$data)  # Inspect the data in Celsius
