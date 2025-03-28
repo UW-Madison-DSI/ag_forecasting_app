@@ -16,6 +16,7 @@ Explore our interactive dashboard designed for real-time agricultural forecastin
   </a>
 </p>
 
+![Alt text](wisconet.png)
 
 ## Explore our Open Source API
 
