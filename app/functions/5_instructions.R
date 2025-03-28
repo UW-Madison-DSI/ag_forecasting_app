@@ -12,7 +12,7 @@ about_page<-fluidPage(
   h4("How It Works:"),
   p("The application uses data from WiscoNet and forecasting Models that were developed by researchers in the University of Madison-Wisconsin to forecast the risk of crop diseases. In this app:"),
   tags$ul(
-    tags$li("The 'Disease Forecasting' tab provides a risk map on the Wisconet Stations and the option to choose a pin to retrieve forecasting information."),
+    tags$li("The 'Ag Forecasting' tab provides a risk map on the Wisconet Stations and the option to choose a pin to retrieve forecasting information."),
     tags$ul(
       tags$li("Select a disease and forecasting date to view the corresponding risk map."),
       tags$li("Click on stations to view more details and center the map on specific locations. This action will trigger weather charts and display downloadable information in the tabs above.")
@@ -39,16 +39,16 @@ about_page<-fluidPage(
     )
   ),
   hr(),
-  h4("Plant Disease Models"),
+  h4("About our Crop Disease Forecasting Models"),
   p("Selected field crops and vegetable disease model outputs are provided. These models are subject to change. The calculations used to generate each model prediction can be viewed in the source code."),
   tags$ul(
-    tags$li('White mold (aka Sporecaster) - dry, irrigated 15-inch row spacing, irrigated 30-inch row spacing - probability of apothecial presence. More information: ',
+    tags$li('Soybean White mold (aka Sporecaster) - dry, irrigated 15-inch row spacing, irrigated 30-inch row spacing - probability of apothecial presence. More information: ',
             tags$a(href = 'https://cropprotectionnetwork.org/news/smartphone-application-to-forecast-white-mold-in-soybean-now-available-to-growers',"Link", target = "_blank")),
-    tags$li('Frogeye Leaf Spot of soybean - probability of presence. More information: ',
+    tags$li('Corn Frogeye Leaf Spot of soybean - probability of presence. More information: ',
             tags$a(href = 'https://cropprotectionnetwork.org/encyclopedia/frogeye-leaf-spot-of-soybean',"Link", target = "_blank")),
-    tags$li('Gray Leaf Spot of corn - probability of presence. More information: ',
+    tags$li('Corn Gray Leaf Spot of corn - probability of presence. More information: ',
             tags$a(href = 'https://cropprotectionnetwork.org/encyclopedia/gray-leaf-spot-of-corn',"Link", target = "_blank")),
-    tags$li('Tar Spot of corn (aka Tarspotter) - probability of presence. More information:',
+    tags$li('Corn Tar Spot of corn (aka Tarspotter) - probability of presence. More information:',
             tags$a(href = 'https://cropprotectionnetwork.org/encyclopedia/tar-spot-of-corn',"Link", target = "_blank"))
   ),
   hr(),

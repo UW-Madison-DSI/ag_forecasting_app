@@ -6,7 +6,9 @@ ibm_query<-function(end_date, lat, lon){
   params <- list(latitude = lat, 
                  longitude = lon, 
                  forecasting_date = end_date,
-                 token = Sys.getenv("API_KEY")
+                 API_KEY = Sys.getenv("API_KEY"),
+                 TENANT_ID = Sys.getenv("TENANT_ID"),
+                 ORG_ID = Sys.getenv('ORG_ID')
                  )
   
   # Make the GET request
