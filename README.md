@@ -7,7 +7,7 @@ This open-source plant disease forecasting API and Dashboard enables proactive a
 
 ## Shiny APP
 
-Visit our [dashboard here](https://connect.doit.wisc.edu/tarspot_forecasting_app/)
+Visit our [dashboard here](https://connect.doit.wisc.edu/ag_forecasting/)
 
 ## API
 
@@ -38,10 +38,6 @@ cd corn_disease_forecast_api
 ```
 ├── LICENSE
 ├── README.md                       <- The top-level README for developers using this project.
-├── plumber.R                       <- Logic to create API
-├── R                               <- Main functionalities for API
-│   ├── crop_mangm_validations.R      <- Crop management validations
-│   ├── logit_functions.R              <- Core functions for forecasting disease api
 ├── materials                     <- Examples of API calls and plug in with Wisconet
 │   ├── call_wisconet                 <- Wisconet call example
 │   ├── docs                          <- Documentation of the schema
@@ -58,18 +54,25 @@ cd corn_disease_forecast_api
 │   │   ├── auxiliar_functions.R      <- List of stations currently active from Wisconet  
 │   │   ├── instructions.R            <- List of stations currently active from Wisconet  
 │   │   ├── punctual_estimates.R      <- TBD 
-├── test                            <- Code Testing modules
-│   ├── testthat.R    
+│   │   ├── test                            <- Code Testing modules
+│   │   │   ├── testthat.R    
  ```
 
 ## Plant disease models
 
 Selected field crops and vegetable disease model outputs are provided. These models are subject to change. The calculations used to generate each model prediction can be viewed in the source code.
 
-- White mold (aka Sporecaster) - dry, irrigated 15-inch row spacing, irrigated 30-inch row spacing - probability of apothecial presence. More information: https://cropprotectionnetwork.org/news/smartphone-application-to-forecast-white-mold-in-soybean-now-available-to-growers
-- Frogeye Leaf Spot of soybean - probability of presence. More information: https://cropprotectionnetwork.org/encyclopedia/frogeye-leaf-spot-of-soybean
-- Gray Leaf Spot of corn - probability of presence. More information: https://cropprotectionnetwork.org/encyclopedia/gray-leaf-spot-of-corn
-- Tar Spot of corn (aka Tarspotter) - probability of presence. More information: https://cropprotectionnetwork.org/encyclopedia/tar-spot-of-corn
+**Soybean Crop Disease** White mold (aka Sporecaster), probability of apothecial presence. More information: https://cropprotectionnetwork.org/news/smartphone-application-to-forecast-white-mold-in-soybean-now-available-to-growers
+
+  - dry 
+  - irrigated 15-inch row spacing
+  - irrigated 30-inch row spacing
+  
+**Corn Crop Disease**
+
+- Frogeye Leaf Spot - More information: https://cropprotectionnetwork.org/encyclopedia/frogeye-leaf-spot-of-soybean
+- Gray Leaf Spot of corn - More information: https://cropprotectionnetwork.org/encyclopedia/gray-leaf-spot-of-corn
+- Tar Spot of corn (aka Tarspotter) - More information: https://cropprotectionnetwork.org/encyclopedia/tar-spot-of-corn
 
 ## License
 
